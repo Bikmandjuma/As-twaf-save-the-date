@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mustapha &amp; Khalila — Save the Date</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ivory: #F2EEE4;
+    --ivory-deep: #E9E3D3;
+    --ink: #211F1C;
+    --ink-soft: #3a3733;
+    --sage: #7C8967;
+    --sage-soft: #A9B296;
+    --hairline: rgba(33,31,28,0.18);
+    --card-shadow: 0 30px 80px -30px rgba(33,31,28,0.35);
+  }
+
+  *{ box-sizing: border-box; }
+
+  html, body{
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+    background: var(--ivory);
+    color: var(--ink);
+    font-family: "Cormorant Garamond", serif;
+  }
+
+  body{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 16px;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* --- faint architectural silhouette, echoing the invitation's dome --- */
+  .dome-backdrop{
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .dome-backdrop svg{
+    width: min(1100px, 140vw);
+    height: auto;
+    opacity: 0.05;
+    transform: translateY(6%);
+  }
+
+  /* --- ambient drifting petals --- */
+  .petal{
+    position: fixed;
+    top: -40px;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.5;
+    color: var(--sage-soft);
+    animation: drift linear infinite;
+    will-change: transform;
+  }
+  .petal svg{ width: 100%; height: 100%; display:block; }
+
+  @keyframes drift{
+    0%   { transform: translate(0, -10vh) rotate(0deg); }
+    100% { transform: translate(var(--drift-x, 40px), 110vh) rotate(360deg); }
+  }
+
+  /* --- card --- */
+  .card{
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 560px;
+    background: linear-gradient(180deg, #FBF9F3 0%, var(--ivory) 55%, var(--ivory-deep) 100%);
+    border: 1px solid var(--hairline);
+    border-radius: 4px;
+    box-shadow: var(--card-shadow);
+    padding: clamp(36px, 8vw, 64px) clamp(24px, 7vw, 56px) clamp(40px, 8vw, 60px);
+    text-align: center;
+    opacity: 0;
+    transform: translateY(18px);
+    animation: cardIn 1s ease-out 0.15s forwards;
+  }
+
+  @keyframes cardIn{ to{ opacity: 1; transform: translateY(0); } }
+
+  .reveal{
+    opacity: 0;
+    transform: translateY(10px);
+    animation: rise 0.8s ease-out forwards;
+  }
+  @keyframes rise{ to{ opacity: 1; transform: translateY(0); } }
+
+  .bismillah{
+    font-family: "Amiri", serif;
+    font-size: clamp(15px, 3vw, 19px);
+    letter-spacing: 0.02em;
+    color: var(--ink-soft);
+    animation-delay: 0.3s;
+  }
+
+  .rule{
+    width: 46px;
+    height: 1px;
+    margin: 18px auto 20px;
+    background: var(--ink);
+    opacity: 0.35;
+    animation-delay: 0.45s;
+  }
+  .rule.reveal{ transform: scaleX(0); animation-name: ruleIn; }
+  @keyframes ruleIn{ to{ opacity: 0.35; transform: scaleX(1); } }
+
+  .eyebrow{
+    font-style: italic;
+    font-weight: 500;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    font-size: clamp(12px, 2.6vw, 14px);
+    color: var(--sage);
+    margin: 0 0 10px;
+    animation-delay: 0.55s;
+  }
+
+  .names{
+    font-family: "Playfair Display", serif;
+    font-weight: 600;
+    font-size: clamp(34px, 8.5vw, 52px);
+    line-height: 1.08;
+    margin: 4px 0 6px;
+    letter-spacing: 0.01em;
+    animation-delay: 0.7s;
+  }
+  .names .amp{
+    font-style: italic;
+    font-weight: 500;
+    color: var(--sage);
+    padding: 0 6px;
+    font-size: 0.85em;
+  }
+
+  .full-date{
+    font-size: clamp(14px, 3.2vw, 17px);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin: 4px 0 30px;
+    animation-delay: 0.85s;
+  }
+  .full-date sup{ font-size: 0.62em; }
+
+  /* --- arch frame holding the countdown --- */
+  .arch-wrap{
+    position: relative;
+    margin: 0 auto 26px;
+    max-width: 460px;
+    animation-delay: 1s;
+  }
+  .arch-svg{
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+  }
+  .arch-svg path{
+    fill: none;
+    stroke: var(--ink);
+    stroke-opacity: 0.28;
+    stroke-width: 1.1;
+  }
+
+  .countdown{
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: clamp(6px, 2vw, 16px);
+    padding: clamp(30px, 7vw, 44px) clamp(14px, 4vw, 26px) clamp(18px, 4vw, 24px);
+  }
+
+  .unit{ display:flex; flex-direction:column; align-items:center; }
+
+  .num-shell{
+    position: relative;
+    height: clamp(46px, 9vw, 62px);
+    overflow: hidden;
+    width: 100%;
+  }
+  .num{
+    display:block;
+    font-family: "Playfair Display", serif;
+    font-weight: 600;
+    font-size: clamp(30px, 8vw, 46px);
+    color: var(--ink);
+    line-height: 1;
+    padding-top: 2px;
+  }
+  .num.flip{ animation: numFlip 0.5s ease; }
+  @keyframes numFlip{
+    0%{ transform: translateY(-100%); opacity: 0; }
+    60%{ transform: translateY(6%); opacity: 1; }
+    100%{ transform: translateY(0); opacity: 1; }
+  }
+
+  .unit-label{
+    margin-top: 6px;
+    font-size: clamp(9.5px, 2.2vw, 11.5px);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--sage);
+    font-style: italic;
+  }
+
+  .insha{
+    font-style: italic;
+    font-size: clamp(17px, 4vw, 20px);
+    color: var(--ink-soft);
+    margin: 6px 0 18px;
+    animation-delay: 1.15s;
+  }
+
+  .leaf-divider{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap: 10px;
+    color: var(--sage-soft);
+    animation-delay: 1.25s;
+  }
+  .leaf-divider .line{ width: 40px; height: 1px; background: currentColor; opacity: 0.6; }
+
+  .calendar-link{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 26px;
+    font-family: "Cormorant Garamond", serif;
+    font-style: italic;
+    font-size: clamp(13px, 3vw, 15px);
+    letter-spacing: 0.06em;
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--ink);
+    padding-bottom: 2px;
+    transition: color 0.25s ease, border-color 0.25s ease, opacity 0.25s ease;
+    animation-delay: 1.35s;
+  }
+  .calendar-link:hover{ color: var(--sage); border-color: var(--sage); }
+  .calendar-link:focus-visible{ outline: 2px solid var(--sage); outline-offset: 4px; }
+
+  @media (prefers-reduced-motion: reduce){
+    .petal{ animation: none; display: none; }
+    .card, .reveal, .rule, .num.flip{ animation: none !important; opacity: 1 !important; transform: none !important; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="dome-backdrop" aria-hidden="true">
+    <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,500 L0,360 L120,360 L120,300 Q120,150 250,150 Q260,90 300,70 Q290,55 300,40 Q310,55 300,70 Q340,90 350,150 Q480,150 480,300 L480,360 L560,360 L560,500 Z" fill="#211F1C"/>
+      <path d="M560,500 L560,400 L620,400 L620,370 Q620,300 660,300 Q660,270 680,260 Q672,250 680,240 Q688,250 680,260 Q700,270 700,300 Q740,300 740,370 L740,400 L800,400 L800,500 Z" fill="#211F1C"/>
+    </svg>
+  </div>
+
+  <div id="petals" aria-hidden="true"></div>
+
+  <main class="card" role="main">
+    <p class="bismillah reveal">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
+    <div class="rule reveal"></div>
+
+    <p class="eyebrow reveal">Save the Date</p>
+    <h1 class="names reveal">Mustapha <span class="amp">&amp;</span> Khalila</h1>
+    <p class="full-date reveal">11<sup>th</sup> October 2026</p>
+
+    <section class="arch-wrap reveal" aria-label="Countdown to the wedding day">
+      <svg class="arch-svg" viewBox="0 0 460 300" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12,300 L12,140 Q12,20 230,20 Q448,20 448,140 L448,300"/>
+        <path d="M30,300 L30,150 Q30,40 230,40 Q430,40 430,150 L430,300" stroke-opacity="0.12"/>
+      </svg>
+      <div class="countdown" id="countdown">
+        <div class="unit">
+          <div class="num-shell"><span class="num" id="days">00</span></div>
+          <span class="unit-label">Days</span>
+        </div>
+        <div class="unit">
+          <div class="num-shell"><span class="num" id="hours">00</span></div>
+          <span class="unit-label">Hours</span>
+        </div>
+        <div class="unit">
+          <div class="num-shell"><span class="num" id="minutes">00</span></div>
+          <span class="unit-label">Minutes</span>
+        </div>
+        <div class="unit">
+          <div class="num-shell"><span class="num" id="seconds">00</span></div>
+          <span class="unit-label">Seconds</span>
+        </div>
+      </div>
+    </section>
+
+    <p class="insha reveal">In sha Allah</p>
+    <div class="leaf-divider reveal"><span class="line"></span>&#10087;<span class="line"></span></div>
+
+    <a class="calendar-link reveal" id="addToCalendar" href="#">+ Add to calendar</a>
+  </main>
+
+<script>
+  // ---- countdown ----
+  const target = new Date('2026-10-11T00:00:00');
+
+  function pad(n){ return String(n).padStart(2, '0'); }
+
+  function setVal(id, value){
+    const el = document.getElementById(id);
+    if(el.textContent !== value){
+      el.textContent = value;
+      el.classList.remove('flip');
+      void el.offsetWidth; // restart animation
+      el.classList.add('flip');
+    }
+  }
+
+  function tick(){
+    const now = new Date();
+    let diff = target - now;
+    if(diff < 0) diff = 0;
+
+    const days = Math.floor(diff / 86400000);
+    const hours = Math.floor(diff / 3600000) % 24;
+    const minutes = Math.floor(diff / 60000) % 60;
+    const seconds = Math.floor(diff / 1000) % 60;
+
+    setVal('days', pad(days));
+    setVal('hours', pad(hours));
+    setVal('minutes', pad(minutes));
+    setVal('seconds', pad(seconds));
+  }
+  tick();
+  setInterval(tick, 1000);
+
+  // ---- add to calendar (Google Calendar link, all-day event) ----
+  const cal = document.getElementById('addToCalendar');
+  const gcalUrl = 'https://calendar.google.com/calendar/render?action=TEMPLATE'
+    + '&text=' + encodeURIComponent('Mustapha & Khalila')
+    + '&dates=20261011/20261012'
+    + '&details=' + encodeURIComponent('Save the date — In sha Allah')
+    + '&sf=true&output=xml';
+  cal.href = gcalUrl;
+  cal.target = '_blank';
+  cal.rel = 'noopener';
+
+  // ---- ambient petals ----
+  const petalHolder = document.getElementById('petals');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(!reduceMotion){
+    const count = window.innerWidth < 600 ? 6 : 10;
+    for(let i = 0; i < count; i++){
+      const p = document.createElement('div');
+      p.className = 'petal';
+      const size = 10 + Math.random() * 12;
+      p.style.width = size + 'px';
+      p.style.height = size + 'px';
+      p.style.left = Math.random() * 100 + 'vw';
+      p.style.setProperty('--drift-x', (Math.random() * 120 - 60) + 'px');
+      p.style.animationDuration = (18 + Math.random() * 14) + 's';
+      p.style.animationDelay = (Math.random() * 12) + 's';
+      p.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C9 2 7 5 7 8c0 2 1 3.5 2.2 4.6C7.7 13.2 6 15 6 17.5 6 20 8 22 10.5 22c1.7 0 3-1 3.5-2.4.5 1.4 1.8 2.4 3.5 2.4C20 22 22 20 22 17.5c0-2.5-1.7-4.3-3.2-4.9C20 11.5 21 10 21 8c0-3-2-6-5-6-1.6 0-2.7.8-3.5 2C11.7 2.8 10.6 2 9 2z" opacity="0.55"/></svg>';
+      petalHolder.appendChild(p);
+    }
+  }
+</script>
+</body>
+</html>
